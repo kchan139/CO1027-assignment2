@@ -646,7 +646,7 @@ bool ArmyKnights::fight (int eventID, int eventOrder)
     {
         bool knightWon = knight[i]->fight(opponent);
         (knightWon)?  passGil(i) : removeKnight(i);
-        if (knightWon && typeO == Hades) this->hasShield = true;
+        if (knightWon && typeO == Hades && defeatedHades) this->hasShield = true;
     }
     return false;
 }
