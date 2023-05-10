@@ -1,6 +1,6 @@
 #include "knight2.h"
 
-//=====* BEGIN implementation of class BaseItem *=====///
+//=====* BEGIN implementation of class BaseItem *=====//
 void PhoenixDown::use (BaseKnight* knight)
 {
     int maxHP     = knight->getMaxHP();
