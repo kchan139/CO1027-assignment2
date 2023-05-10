@@ -15,6 +15,9 @@ enum eventID { MadBear              = 1,   Bandit               = 2,   LordLupin
 
 class BaseItem; class Phoenix; class Antidote; class BaseKnight; class Events;
 
+static bool defeatedOmegaWeapon = false;
+static bool defeatedHades       = false;
+
 //==========* ITEMS *==========//
 class BaseItem
 {
@@ -37,7 +40,7 @@ class PhoenixDown : public BaseItem
     public:
         PhoenixDown (ItemType phoenixType) 
             { this->itemType = phoenixType; }
-        bool canUse (BaseKnight *);
+        // bool canUse (BaseKnight *);
         void use    (BaseKnight *);
 };
 
@@ -60,6 +63,7 @@ class BaseBag
         virtual bool       insertFirst (BaseItem * item);
         virtual bool       removeFirst ();
         virtual bool       removeOne   (ItemType itemType);
+        virtual bool       removeAll   ();
         int getNumberOfItems () const { return antidoteCount + phoenixCount; }
         int getMaxCapacity   () const { return maxCapacity; }
         int getPhoenixCount  () const { return phoenixCount; }
@@ -211,7 +215,6 @@ class BaseKnight
     protected:
         int id;     int hp;     int maxhp;
         int level;  int gil;    int antidote, phoenixdown;
-        bool defeatedOmegaWeapon = false;
         KnightType knightType;
 
     public:
@@ -224,11 +227,11 @@ class BaseKnight
         string toString      () const;
 
         KnightType getTypeK ()               { return knightType; }
-        int getHP      ()                    { return hp; }
-        int getMaxHP   ()                    { return maxhp; }
-        int getLevel   ()                    { return level; }
-        int getGil     ()                    { return gil; }
-        int getBaseDmg ()                    { return baseDmg; }
+        int    getHP      ()                 { return hp; }
+        int    getMaxHP   ()                 { return maxhp; }
+        int    getLevel   ()                 { return level; }
+        int    getGil     ()                 { return gil; }
+        double getBaseDmg ()                 { return baseDmg; }
         void setHP     (int updatedHP)       { this->hp    = updatedHP; }
         void setLevel  (int updatedLevel)    { this->level = updatedLevel; }
         void setGil    (int updatedGil)      { this->gil   = updatedGil; }

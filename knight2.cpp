@@ -126,6 +126,21 @@ bool BaseBag::removeOne(ItemType itemType)
     }
     return false;
 }
+bool BaseBag::removeAll ()
+{
+    if (!head) return false;
+    BaseItem * current = head;
+    while (current)
+    {
+        BaseItem * temp = current;
+        current = current->next;
+        delete temp;
+    }
+    head = nullptr;
+    antidoteCount = 0;
+    phoenixCount  = 0;
+    return true;
+}
 BaseItem * BaseBag::get (ItemType itemType)
 {
     BaseItem * current = head;
@@ -225,11 +240,11 @@ bool Paladin::fight (BaseOpponent * opponent)
             if (antidote) this->bag->takeAntidote();
             else 
             {
-                this->hp -= 10; isAlive();
                 if (this->bag->getNumberOfItems() <= 3)
-                    { this->bag->setHead(nullptr); return true; }
-                for (int i = 0; i < 3; i++)
+                    this->bag->removeAll(); 
+                else for (int i = 0; i < 3; i++)
                     this->bag->removeFirst();
+                this->hp -= 10; isAlive();
                 return true;
             }
         }
@@ -237,7 +252,6 @@ bool Paladin::fight (BaseOpponent * opponent)
     if (typeO == QueenOfCards) // nhaCaiSoMotChauAu
     {
         if (this->level >= levelO) this->gil *= 2;
-        else this->gil /= 2;
         return true;
     }
     if (typeO == NinaDeRings) // wandering trader
@@ -261,9 +275,9 @@ bool Paladin::fight (BaseOpponent * opponent)
         }
         else { this->hp = 0; return this->isAlive(); }
     }
-    if (typeO == Hades) // the god of Death
+    if (typeO == Hades && !defeatedHades) // the god of Death
     {
-        if (this->level >= 8) return true;
+        if (this->level >= 8) { defeatedHades = true; return true; }
         else { this->hp = 0;  return this->isAlive(); }
     }
     return true;
@@ -289,11 +303,11 @@ bool Lancelot::fight (BaseOpponent * opponent)
             if (antidote) this->bag->takeAntidote();
             else 
             {
-                this->hp -= 10; isAlive();
                 if (this->bag->getNumberOfItems() <= 3)
-                    { this->bag->setHead(nullptr); return true; }
-                for (int i = 0; i < 3; i++)
+                    this->bag->removeAll(); 
+                else for (int i = 0; i < 3; i++)
                     this->bag->removeFirst();
+                this->hp -= 10; isAlive();
                 return true;
             }
         }
@@ -327,9 +341,9 @@ bool Lancelot::fight (BaseOpponent * opponent)
         }
         else { this->hp = 0; return this->isAlive(); }
     }
-    if (typeO == Hades) // the god of Death
+    if (typeO == Hades && !defeatedHades) // the god of Death
     {
-        if (this->level >= 8) return true;
+        if (this->level >= 8) { defeatedHades = true; return true; }
         else { this->hp = 0;  return this->isAlive(); }
     }
     return true;
@@ -384,9 +398,9 @@ bool DragonKnight::fight (BaseOpponent * opponent)
         defeatedOmegaWeapon = true;
         this->gil = 999; return true;
     }
-    if (typeO == Hades) // the god of Death
+    if (typeO == Hades && !defeatedHades) // the god of Death
     {
-        if (this->level >= 8) return true;
+        if (this->level >= 8) { defeatedHades = true; return true; }
         else { this->hp = 0;  return this->isAlive(); }
     }
     return true;
@@ -421,11 +435,11 @@ bool NormalKnight::fight (BaseOpponent * opponent)
             if (antidote) this->bag->takeAntidote();
             else 
             {
-                this->hp -= 10; isAlive();
                 if (this->bag->getNumberOfItems() <= 3)
-                    { this->bag->setHead(nullptr); return true; }
-                for (int i = 0; i < 3; i++)
+                    this->bag->removeAll(); 
+                else for (int i = 0; i < 3; i++)
                     this->bag->removeFirst();
+                this->hp -= 10; isAlive();
                 return true;
             }
         }
@@ -458,9 +472,9 @@ bool NormalKnight::fight (BaseOpponent * opponent)
         }
         else { this->hp = 0; return this->isAlive(); }
     }
-    if (typeO == Hades) // the god of Death
+    if (typeO == Hades && !defeatedHades) // the god of Death
     {
-        if (this->level >= 8) return true;
+        if (this->level == 10) { defeatedHades = true; return true; }
         else { this->hp = 0;  return this->isAlive(); }
     }
     return true;
@@ -656,10 +670,9 @@ void ArmyKnights::lootItem (int position, ItemType itemType)
 {
     BaseItem * item;
         if (itemType == ANTIDOTE)    item = new Antidote    ();
-        if (itemType == PHOENIX_I)   item = new PhoenixDown (PHOENIX_I);
-        if (itemType == PHOENIX_II)  item = new PhoenixDown (PHOENIX_II);
-        if (itemType == PHOENIX_III) item = new PhoenixDown (PHOENIX_III);
-        if (itemType == PHOENIX_IV)  item = new PhoenixDown (PHOENIX_IV);
+                            else     item = new PhoenixDown (itemType);
+
+    if (!position) { knight[position]->bag->insertFirst(item); return; }
     for (int p = position; p > 0; p--)
     {
         if (knight[p]->bag->getNumberOfItems() >= knight[p]->bag->getMaxCapacity())
