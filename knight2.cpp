@@ -265,19 +265,17 @@ bool Paladin::fight (BaseOpponent * opponent)
     }
     if (typeO == DurianGarden) // cloud garden
         { this->hp = this->maxhp; return true; }
-    if (typeO == OmegaWeapon && !defeatedOmegaWeapon) // powerful ancient monster, has been around since the beginning of time
+    if (typeO == OmegaWeapon && !encounteredOmegaWeapon) // powerful ancient monster, has been around since the beginning of time
     {
+        encounteredOmegaWeapon = true;
         if (this->level == 10 && this->hp == this->maxhp)
-        {
-            defeatedOmegaWeapon = true;
-            this->gil = 999;
-            return true;
-        }
+            { this->gil = 999; return true; }
         else { this->hp = 0; return this->isAlive(); }
     }
-    if (typeO == Hades && !defeatedHades) // the god of Death
+    if (typeO == Hades && !encounteredHades) // the god of Death
     {
-        if (this->level >= 8) { defeatedHades = true; return true; }
+        encounteredHades = true; 
+        if (this->level >= 8) return true; 
         else { this->hp = 0;  return this->isAlive(); }
     }
     return true;
@@ -331,19 +329,17 @@ bool Lancelot::fight (BaseOpponent * opponent)
     }
     if (typeO == DurianGarden) // cloud garden
         { this->hp = this->maxhp; return true; }
-    if (typeO == OmegaWeapon && !defeatedOmegaWeapon) // powerful ancient monster, has been around since the beginning of time
+    if (typeO == OmegaWeapon && !encounteredOmegaWeapon) // powerful ancient monster, has been around since the beginning of time
     {
+        encounteredOmegaWeapon = true;
         if (this->level == 10 && this->hp == this->maxhp)
-        {
-            defeatedOmegaWeapon = true;
-            this->gil = 999;
-            return true;
-        }
+            { this->gil = 999; return true; }
         else { this->hp = 0; return this->isAlive(); }
     }
-    if (typeO == Hades && !defeatedHades) // the god of Death
+    if (typeO == Hades && !encounteredHades) // the god of Death
     {
-        if (this->level >= 8) { defeatedHades = true; return true; }
+        encounteredHades = true; 
+        if (this->level == 10) return true; 
         else { this->hp = 0;  return this->isAlive(); }
     }
     return true;
@@ -393,14 +389,16 @@ bool DragonKnight::fight (BaseOpponent * opponent)
     }
     if (typeO == DurianGarden) // cloud garden
         { this->hp = this->maxhp; return true; }
-    if (typeO == OmegaWeapon && !defeatedOmegaWeapon) // powerful ancient monster, has been around since the beginning of time
+    if (typeO == OmegaWeapon && !encounteredOmegaWeapon) // powerful ancient monster, has been around since the beginning of time
     {
-        defeatedOmegaWeapon = true;
-        this->gil = 999; return true;
+        encounteredOmegaWeapon = true;
+        this->level = 10;
+        this->gil   = 999; return true;
     }
-    if (typeO == Hades && !defeatedHades) // the god of Death
+    if (typeO == Hades && !encounteredHades) // the god of Death
     {
-        if (this->level >= 8) { defeatedHades = true; return true; }
+        encounteredHades = true; 
+        if (this->level >= 8) return true; 
         else { this->hp = 0;  return this->isAlive(); }
     }
     return true;
@@ -463,18 +461,17 @@ bool NormalKnight::fight (BaseOpponent * opponent)
     }
     if (typeO == DurianGarden) // cloud garden
         { this->hp = this->maxhp; return true; }
-    if (typeO == OmegaWeapon && !defeatedOmegaWeapon) // powerful ancient monster, has been around since the beginning of time
+    if (typeO == OmegaWeapon && !encounteredOmegaWeapon) // powerful ancient monster, has been around since the beginning of time
     {
+        encounteredOmegaWeapon = true;
         if (this->level == 10 && this->hp == this->maxhp)
-        {
-            defeatedOmegaWeapon = true;
-            this->gil = 999; return true;
-        }
+            { this->gil = 999; return true; }
         else { this->hp = 0; return this->isAlive(); }
     }
-    if (typeO == Hades && !defeatedHades) // the god of Death
+    if (typeO == Hades && !encounteredHades) // the god of Death
     {
-        if (this->level == 10) { defeatedHades = true; return true; }
+        encounteredHades = true; 
+        if (this->level == 10) return true; 
         else { this->hp = 0;  return this->isAlive(); }
     }
     return true;
@@ -646,7 +643,7 @@ bool ArmyKnights::fight (int eventID, int eventOrder)
     {
         bool knightWon = knight[i]->fight(opponent);
         (knightWon)?  passGil(i) : removeKnight(i);
-        if (knightWon && typeO == Hades && defeatedHades) this->hasShield = true;
+        if (knightWon && typeO == Hades && encounteredHades) this->hasShield = true;
     }
     return false;
 }
