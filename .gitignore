@@ -1,6 +1,10 @@
 *.log
 
 .vscode/
+main.dSYM/
+
 knight2.exe
+main
+
 tc1_armyknights
 tc1_events
