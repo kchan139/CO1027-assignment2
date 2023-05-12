@@ -1,0 +1,6 @@
+*.log
+
+.vscode/
+knight2.exe
+tc1_armyknights
+tc1_events
