@@ -15,8 +15,8 @@ enum eventID { MadBear              = 1,   Bandit               = 2,   LordLupin
 
 class BaseItem; class Phoenix; class Antidote; class BaseKnight; class Events;
 
-static bool defeatedOmegaWeapon = false;
-static bool defeatedHades       = false;
+static bool encounteredOmegaWeapon = false;
+static bool encounteredHades       = false;
 
 //==========* ITEMS *==========//
 class BaseItem
