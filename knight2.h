@@ -17,6 +17,7 @@ class BaseItem; class Phoenix; class Antidote; class BaseKnight; class Events;
 
 static bool encounteredOmegaWeapon = false;
 static bool encounteredHades       = false;
+static bool defeatedHades          = false;
 
 //==========* ITEMS *==========//
 class BaseItem
@@ -59,7 +60,7 @@ class BaseBag
             phoenixCount         = 0;
 
     public:
-        virtual BaseItem * get         (ItemType itemType);
+        virtual BaseItem * get         ();
         virtual bool       insertFirst (BaseItem * item);
         virtual bool       removeFirst ();
         virtual bool       removeOne   (ItemType itemType);

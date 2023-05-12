@@ -13,6 +13,7 @@ void PhoenixDown::use (BaseKnight* knight)
                 knight->setHP(maxHP);
                 if (knight->getHP() > knight->getMaxHP())
                     knight->setHP(knight->getMaxHP());
+                knight->bag->removeOne(PHOENIX_I);
             }
             return;
 
@@ -22,6 +23,7 @@ void PhoenixDown::use (BaseKnight* knight)
                 knight->setHP(maxHP);
                 if (knight->getHP() > knight->getMaxHP())
                     knight->setHP(knight->getMaxHP());
+                knight->bag->removeOne(PHOENIX_II);
             }
             return;
 
@@ -32,6 +34,7 @@ void PhoenixDown::use (BaseKnight* knight)
                                 knight->setHP(currentHP + (maxHP / 4));
                 if (knight->getHP() > knight->getMaxHP())
                     knight->setHP(knight->getMaxHP());
+                knight->bag->removeOne(PHOENIX_III);
             }
             return;
 
@@ -42,6 +45,7 @@ void PhoenixDown::use (BaseKnight* knight)
                                 knight->setHP(currentHP + (maxHP / 5));
                 if (knight->getHP() > knight->getMaxHP())
                     knight->setHP(knight->getMaxHP());
+                knight->bag->removeOne(PHOENIX_IV);
             }
             return;
             
@@ -141,16 +145,13 @@ bool BaseBag::removeAll ()
     phoenixCount  = 0;
     return true;
 }
-BaseItem * BaseBag::get (ItemType itemType)
+BaseItem * BaseBag::get () // returns the first item in the bag
 {
-    BaseItem * current = head;
-    while (current)
-    {
-        if (current->getItemType() == itemType)
-            return current;
-        current = current->next;
-    }
-    return nullptr;
+    if (!head) return nullptr;
+    BaseItem * item = head;
+    while (item && (item->getItemType() == ANTIDOTE) && (antidoteCount == 0))
+        item = item->next;
+    return item;
 }
 
 //=====* END implementation of class BaseBag *=====//
@@ -198,14 +199,14 @@ BaseKnight * BaseKnight::create (int id, int maxhp, int level, int gil, int anti
 
 bool BaseKnight::isAlive()
 {
-    if (bag->get(PHOENIX_I))
-        { PhoenixDown (PHOENIX_I).use(this); bag->removeOne(PHOENIX_I); return true; }
-    if (bag->get(PHOENIX_II))
-        { PhoenixDown (PHOENIX_II).use(this); bag->removeOne(PHOENIX_II); return true; }
-    if (bag->get(PHOENIX_III))
-        { PhoenixDown (PHOENIX_III).use(this); bag->removeOne(PHOENIX_III); return true; }
-    if (bag->get(PHOENIX_IV))
-        { PhoenixDown (PHOENIX_IV).use(this); bag->removeOne(PHOENIX_IV); return true; }
+    BaseItem * item = bag->get();
+    if (item) { item->use(this); return true; }
+    // if (bag->get(PHOENIX_II))
+    //     { PhoenixDown (PHOENIX_II).use(this); bag->removeOne(PHOENIX_II); return true; }
+    // if (bag->get(PHOENIX_III))
+    //     { PhoenixDown (PHOENIX_III).use(this); bag->removeOne(PHOENIX_III); return true; }
+    // if (bag->get(PHOENIX_IV))
+    //     { PhoenixDown (PHOENIX_IV).use(this); bag->removeOne(PHOENIX_IV); return true; }
 
     if (this->hp <= 0)
     {
@@ -275,7 +276,8 @@ bool Paladin::fight (BaseOpponent * opponent)
     if (typeO == Hades && !encounteredHades) // the god of Death
     {
         encounteredHades = true; 
-        if (this->level >= 8) return true; 
+        if (this->level >= 8) 
+            { defeatedHades = true; return true; } 
         else { this->hp = 0;  return this->isAlive(); }
     }
     return true;
@@ -339,7 +341,8 @@ bool Lancelot::fight (BaseOpponent * opponent)
     if (typeO == Hades && !encounteredHades) // the god of Death
     {
         encounteredHades = true; 
-        if (this->level == 10) return true; 
+        if (this->level == 10) 
+            { defeatedHades = true; return true; }
         else { this->hp = 0;  return this->isAlive(); }
     }
     return true;
@@ -398,7 +401,8 @@ bool DragonKnight::fight (BaseOpponent * opponent)
     if (typeO == Hades && !encounteredHades) // the god of Death
     {
         encounteredHades = true; 
-        if (this->level >= 8) return true; 
+        if (this->level >= 8) 
+            { defeatedHades = true; return true; } 
         else { this->hp = 0;  return this->isAlive(); }
     }
     return true;
@@ -471,7 +475,8 @@ bool NormalKnight::fight (BaseOpponent * opponent)
     if (typeO == Hades && !encounteredHades) // the god of Death
     {
         encounteredHades = true; 
-        if (this->level == 10) return true; 
+        if (this->level == 10) 
+            { defeatedHades = true; return true; }
         else { this->hp = 0;  return this->isAlive(); }
     }
     return true;
@@ -644,7 +649,7 @@ bool ArmyKnights::fight (int eventID, int eventOrder)
         int i = numberOfKnights - 1; if (i < 0) return false;
         bool knightWon = knight[i]->fight(opponent);
         (knightWon)?  passGil(i) : removeKnight(i);
-        if (knightWon && typeO == Hades && encounteredHades) this->hasShield = true;
+        if (knightWon && typeO == Hades && defeatedHades) this->hasShield = true;
     // }
     return false;
 }
