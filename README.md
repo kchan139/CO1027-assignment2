@@ -2,8 +2,4 @@
 Programming Fundamentals - Second Assignment
 
 
-Not a very well-designed program
-
-I hate this course
-
-I hate this school
+Not a very well-designed program but works
