@@ -149,7 +149,7 @@ BaseItem * BaseBag::get () // returns the first item in the bag
 {
     if (!head) return nullptr;
     BaseItem * item = head;
-    while (item && (item->getItemType() == ANTIDOTE) && (antidoteCount == 0))
+    while (item && (item->getItemType() == ANTIDOTE))
         item = item->next;
     return item;
 }
