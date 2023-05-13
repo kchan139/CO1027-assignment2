@@ -238,7 +238,7 @@ bool Paladin::fight (BaseOpponent * opponent)
         }
         else
         {
-            if (antidote) this->bag->takeAntidote();
+            if (antidote) this->bag->removeOne(ANTIDOTE);
             else 
             {
                 if (this->bag->getNumberOfItems() <= 3)
@@ -300,7 +300,7 @@ bool Lancelot::fight (BaseOpponent * opponent)
         }
         else
         {
-            if (antidote) this->bag->takeAntidote();
+            if (antidote) this->bag->removeOne(ANTIDOTE);
             else 
             {
                 if (this->bag->getNumberOfItems() <= 3)
@@ -434,7 +434,7 @@ bool NormalKnight::fight (BaseOpponent * opponent)
         }
         else
         {
-            if (antidote) this->bag->takeAntidote();
+            if (antidote) this->bag->removeOne(ANTIDOTE);
             else 
             {
                 if (this->bag->getNumberOfItems() <= 3)
@@ -647,9 +647,10 @@ bool ArmyKnights::fight (int eventID, int eventOrder)
     // for (int i = numberOfKnights - 1; i >= 0; i--)
     // {
         int i = numberOfKnights - 1; if (i < 0) return false;
-        bool knightWon = knight[i]->fight(opponent);
-        (knightWon)?  passGil(i) : removeKnight(i);
-        if (knightWon && typeO == Hades && defeatedHades) this->hasShield = true;
+        bool knightAlive = knight[i]->fight(opponent);
+        (knightAlive)?  passGil(i) : removeKnight(i);
+        if (knightAlive && typeO == Hades && defeatedHades) 
+            this->hasShield = true;
     // }
     return false;
 }

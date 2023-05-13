@@ -19,6 +19,7 @@ static bool encounteredOmegaWeapon = false;
 static bool encounteredHades       = false;
 static bool defeatedHades          = false;
 
+
 //==========* ITEMS *==========//
 class BaseItem
 {
@@ -32,21 +33,15 @@ class BaseItem
         virtual void     use         (BaseKnight *) { return; };
         virtual ItemType getItemType () const { return itemType; }
 };
-
 class Antidote : public BaseItem
     { public: Antidote () { this->itemType = ANTIDOTE; } };
-
 class PhoenixDown : public BaseItem
 {
     public:
         PhoenixDown (ItemType phoenixType) 
             { this->itemType = phoenixType; }
-        // bool canUse (BaseKnight *);
         void use    (BaseKnight *);
 };
-
-
-
 
 
 //==========* INVENTORY *==========//
@@ -69,12 +64,9 @@ class BaseBag
         int getMaxCapacity   () const { return maxCapacity; }
         int getPhoenixCount  () const { return phoenixCount; }
         int getAntidoteCount () const { return antidoteCount; }
-        void takeAntidote    () { this->antidoteCount--; }
-        void takePhoenix     () { this->phoenixCount--; }
         void setHead         (BaseItem * head) { this->head = head; }
         string toString      () const;
 };
-
 class PaladinBag : public BaseBag
 {
     public:
@@ -97,7 +89,6 @@ class PaladinBag : public BaseBag
             }
         }
 };
-
 class LancelotBag : public BaseBag
 {
     public:
@@ -127,7 +118,6 @@ class LancelotBag : public BaseBag
             }
         }
 };
-
 class DragonBag : public BaseBag 
 {
     public:
@@ -157,7 +147,6 @@ class DragonBag : public BaseBag
             }
         }
 };
-
 class NormalBag : public BaseBag
 {
     public:
@@ -189,8 +178,6 @@ class NormalBag : public BaseBag
 };
 
 
-
-
 //==========* OPPONENTS *==========//
 class BaseOpponent
 {
@@ -205,9 +192,6 @@ class BaseOpponent
         int getGilO        ()    { return gilO; }
         int getBaseDamageO ()    { return baseDmgO; }
 };
-
-
-
 
 
 //==========* KNIGHTS *==========//
@@ -237,7 +221,6 @@ class BaseKnight
         void setLevel  (int updatedLevel)    { this->level = updatedLevel; }
         void setGil    (int updatedGil)      { this->gil   = updatedGil; }
 };
-
 class Paladin : public BaseKnight
 {
     public:
@@ -252,7 +235,6 @@ class Paladin : public BaseKnight
         }
         bool fight (BaseOpponent *);
 };
-
 class Lancelot : public BaseKnight
 {
     public:
@@ -267,7 +249,6 @@ class Lancelot : public BaseKnight
         }
         bool fight (BaseOpponent *);
 };
-
 class DragonKnight : public BaseKnight
 {
     public:
@@ -282,7 +263,6 @@ class DragonKnight : public BaseKnight
         }
         bool fight (BaseOpponent *);
 };
-
 class NormalKnight : public BaseKnight
 {
     public:
@@ -296,9 +276,6 @@ class NormalKnight : public BaseKnight
         }
         bool fight (BaseOpponent *);
 };
-
-
-
 
 
 //==========* ARMYKNIGHTS *==========//
@@ -322,7 +299,6 @@ BaseKnight * knightAt (int i) const;
         void lootItem     (int, ItemType);
         void passGil      (int);
         void removeKnight (int);
-
         bool hasPaladinShield  ()     const { return hasShield; }
         bool hasLancelotSpear  ()     const { return hasSpear; }
         bool hasGuinevereHair  ()     const { return hasHollyHair; }
@@ -330,9 +306,6 @@ BaseKnight * knightAt (int i) const;
         void printInfo         ()     const;
         void printResult       (bool) const;
 };
-
-
-
 
 
 //==========* EVENTS *==========//
@@ -360,10 +333,6 @@ class KnightAdventure
         void loadEvents      (const string &);
         void run             ();
 };
-
-
-
-
 
 //==========* USEFUL - FUNCTIONS *==========//
 
