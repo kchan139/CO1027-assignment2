@@ -2,7 +2,7 @@
 Programming Fundamentals - Second Assignment
 
 
-Not very well-designed
+Not a very well-designed program
 
 I hate this course
 
