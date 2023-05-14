@@ -55,11 +55,12 @@ class BaseBag
             phoenixCount         = 0;
 
     public:
-        virtual BaseItem * get         ();
+        virtual BaseItem * getPhoenix  (BaseKnight * knight);
         virtual bool       insertFirst (BaseItem * item);
         virtual bool       removeFirst ();
         virtual bool       removeOne   (ItemType itemType);
         virtual bool       removeAll   ();
+        virtual bool       canUse      (BaseKnight *, ItemType);
         int getNumberOfItems () const { return antidoteCount + phoenixCount; }
         int getMaxCapacity   () const { return maxCapacity; }
         int getPhoenixCount  () const { return phoenixCount; }

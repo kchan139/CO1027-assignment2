@@ -1,6 +1,31 @@
 #include "knight2.h"
 
 //=====* BEGIN implementation of class BaseItem *=====//
+bool BaseBag::canUse (BaseKnight* knight, ItemType itemType) 
+{
+    int maxHP     = knight->getMaxHP();
+    int currentHP = knight->getHP();
+
+    switch (itemType)
+    {
+        case PHOENIX_I: 
+            if (currentHP <= 0) return true;
+
+        case PHOENIX_II:
+            if (currentHP < (maxHP / 4) )
+                return true;
+
+        case PHOENIX_III:
+            if (currentHP < (maxHP / 3) )
+                return true;
+
+        case PHOENIX_IV:
+            if (currentHP < (maxHP / 2) )
+                return true;
+    }
+    return false;
+}
+
 void PhoenixDown::use (BaseKnight* knight)
 {
     int maxHP     = knight->getMaxHP();
@@ -145,11 +170,11 @@ bool BaseBag::removeAll ()
     phoenixCount  = 0;
     return true;
 }
-BaseItem * BaseBag::get () // returns the first item in the bag
+BaseItem * BaseBag::getPhoenix(BaseKnight * knight) // returns the first item in the bag
 {
     if (!head) return nullptr;
     BaseItem * item = head;
-    while (item && (item->getItemType() == ANTIDOTE))
+    while ( item && !(knight->bag->canUse(knight, item->getItemType() )) )
         item = item->next;
     return item;
 }
@@ -199,7 +224,7 @@ BaseKnight * BaseKnight::create (int id, int maxhp, int level, int gil, int anti
 
 bool BaseKnight::isAlive()
 {
-    BaseItem * item = bag->get();
+    BaseItem * item = bag->getPhoenix(this);
     if (item) { item->use(this); return true; }
     // if (bag->get(PHOENIX_II))
     //     { PhoenixDown (PHOENIX_II).use(this); bag->removeOne(PHOENIX_II); return true; }
