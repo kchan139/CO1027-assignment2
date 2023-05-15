@@ -111,17 +111,16 @@ string BaseBag::toString () const
 bool BaseBag::insertFirst (BaseItem * item)
 {
     if (!item)  return false;
-    if (!head)
+    if (!head)  head = item;
+    else
     {
-        head = item;
-        if (item->getItemType() == ANTIDOTE) antidoteCount++;
-        else phoenixCount++;
-        return true;
+        item->next = head;
+        head       = item;
     }
-    item->next = head;
-    head       = item;
-    if (item->getItemType() == ANTIDOTE) antidoteCount++;
+    if (item->getItemType() == ANTIDOTE) 
+         antidoteCount++;
     else phoenixCount++;
+
     return true;
 }
 bool BaseBag::removeFirst ()
@@ -226,12 +225,6 @@ bool BaseKnight::isAlive()
 {
     BaseItem * item = bag->getPhoenix(this);
     if (item) { item->use(this); return true; }
-    // if (bag->get(PHOENIX_II))
-    //     { PhoenixDown (PHOENIX_II).use(this); bag->removeOne(PHOENIX_II); return true; }
-    // if (bag->get(PHOENIX_III))
-    //     { PhoenixDown (PHOENIX_III).use(this); bag->removeOne(PHOENIX_III); return true; }
-    // if (bag->get(PHOENIX_IV))
-    //     { PhoenixDown (PHOENIX_IV).use(this); bag->removeOne(PHOENIX_IV); return true; }
 
     if (this->hp <= 0)
     {
