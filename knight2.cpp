@@ -5,20 +5,16 @@ bool BaseBag::canUse (BaseKnight* knight, ItemType itemType)
 {
     int maxHP     = knight->getMaxHP();
     int currentHP = knight->getHP();
-
     switch (itemType)
     {
         case PHOENIX_I: 
             if (currentHP <= 0) return true;
-
         case PHOENIX_II:
             if (currentHP < (maxHP / 4) )
                 return true;
-
         case PHOENIX_III:
             if (currentHP < (maxHP / 3) )
                 return true;
-
         case PHOENIX_IV:
             if (currentHP < (maxHP / 2) )
                 return true;
@@ -77,7 +73,6 @@ void PhoenixDown::use (BaseKnight* knight)
         default: return;
     }
 }
-
 //=====* END implementation of class BaseItem *=====//
 
 
@@ -178,7 +173,6 @@ BaseItem * BaseBag::getPhoenix(BaseKnight * knight) // returns the first item in
         item = item->next;
     return item;
 }
-
 //=====* END implementation of class BaseBag *=====//
 
 
@@ -186,7 +180,6 @@ BaseItem * BaseBag::getPhoenix(BaseKnight * knight) // returns the first item in
 
 
 //=====* BEGIN implementation of class BaseKnight *=====//
-
 string BaseKnight::toString () const 
 {
     string typeString[] = {"PALADIN", "LANCELOT", "DRAGON", "NORMAL"};
@@ -206,19 +199,15 @@ BaseKnight * BaseKnight::create (int id, int maxhp, int level, int gil, int anti
     if (isPrime(maxhp))
         knight = new 
             Paladin(id, maxhp, level, gil, antidote, phoenixdownI);
-    
     else if (maxhp == 888)
         knight = new 
             Lancelot(id, maxhp, level, gil, antidote, phoenixdownI);
-
     else if (isPythagoreanTriple(maxhp))
         knight = new 
             DragonKnight(id, maxhp, level, gil, antidote, phoenixdownI);
-
     else
         knight = new 
             NormalKnight(id, maxhp, level, gil, antidote, phoenixdownI);
-
     return knight;
 }
 
@@ -226,12 +215,6 @@ bool BaseKnight::isAlive()
 {
     BaseItem * item = bag->getPhoenix(this);
     if (item) { item->use(this); return true; }
-    // if (bag->get(PHOENIX_II))
-    //     { PhoenixDown (PHOENIX_II).use(this); bag->removeOne(PHOENIX_II); return true; }
-    // if (bag->get(PHOENIX_III))
-    //     { PhoenixDown (PHOENIX_III).use(this); bag->removeOne(PHOENIX_III); return true; }
-    // if (bag->get(PHOENIX_IV))
-    //     { PhoenixDown (PHOENIX_IV).use(this); bag->removeOne(PHOENIX_IV); return true; }
 
     if (this->hp <= 0)
     {
@@ -506,8 +489,6 @@ bool NormalKnight::fight (BaseOpponent * opponent)
     }
     return true;
 }
-
-
 //=====* END implementation of class BaseKnight *=====//
 
 
@@ -515,7 +496,6 @@ bool NormalKnight::fight (BaseOpponent * opponent)
 
 
 //=====* BEGIN implementation of class Events *=====//
-
 Events::Events (const string & file_events)
 {
     ifstream file (file_events);
@@ -556,19 +536,6 @@ void ArmyKnights::printInfo() const
          << ";ExcaliburSword:" << this->hasExcaliburSword()
                                << endl
          << string(50, '-')    << endl;
-
-    // for (int i = this->count() - 1; i >= 0; i--)
-    // {
-    //     cout << endl;
-    //     cout << "knightID: " << i+1;
-    //     if (this->count()) 
-    //     {
-    //         BaseKnight * lknight = knightAt(i); // last knight
-    //         cout << ";" << lknight->toString();
-    //         cout << endl;
-    //     }
-    //     cout << endl;
-    // }
 }
 
 ArmyKnights::ArmyKnights (const string & file_armyknights)
@@ -600,12 +567,6 @@ BaseKnight * ArmyKnights::lastKnight () const
 { 
     if (!numberOfKnights) return nullptr;
     return knight [numberOfKnights - 1]; 
-}
-
-BaseKnight * ArmyKnights::knightAt (int i) const
-{ 
-    if (!numberOfKnights || i < 0 || i > numberOfKnights-1) return nullptr;
-    return knight [i]; 
 }
 
 void ArmyKnights::removeKnight(int position)
@@ -716,7 +677,6 @@ void ArmyKnights::lootItem (int position, ItemType itemType)
 
 void ArmyKnights::printResult(bool win) const 
     { cout << (win ? "WIN" : "LOSE") << endl; }
-
 //=====* END implementation of class ArmyKnights *=====//
 
 
@@ -724,15 +684,14 @@ void ArmyKnights::printResult(bool win) const
 
 
 //=====* BEGIN implementation of class KnightAdventure *=====//
-
 KnightAdventure::KnightAdventure () 
-    { armyKnights = nullptr; events = nullptr; }
+{ armyKnights = nullptr; events = nullptr; }
 
 void KnightAdventure::loadArmyKnights (const string & file_armyknights)
-    { armyKnights = new ArmyKnights(file_armyknights); }    
+{ armyKnights = new ArmyKnights(file_armyknights); }    
 
 void KnightAdventure::loadEvents (const string & file_events)
-    { events = new Events(file_events); }
+{ events = new Events(file_events); }
 
 void KnightAdventure::run ()
 {
@@ -745,14 +704,12 @@ KnightAdventure::~KnightAdventure ()
     if (armyKnights) { delete armyKnights; armyKnights = nullptr; }
     if (events)      { delete events;      events = nullptr; }
 }
-
 //===== END implementation of class KnightAdventure =====//
 
 
 
 
 //==========* USEFUL - FUNCTIONS *==========//
-
 bool isPrime (int hp)
 {
     if (hp < 2) return false;
@@ -765,11 +722,9 @@ bool isPythagoreanTriple (int hp) // only works with 0 < knight's HP < 1000 (gua
 {
     string digits = to_string(hp);
     if (digits.length() != 3) return false;
-
     else if (digits.find("3") != string::npos &&
              digits.find("4") != string::npos &&
              digits.find("5") != string::npos)  return true;
-
     return false;
 }
 

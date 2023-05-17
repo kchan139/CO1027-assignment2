@@ -28,7 +28,7 @@ class BaseItem
 
     public:
         BaseItem * next;
-        BaseItem () { this->next = nullptr; }
+        BaseItem          () { this->next = nullptr; }
         virtual ~BaseItem () = default;
         virtual void     use         (BaseKnight *) { return; };
         virtual ItemType getItemType () const { return itemType; }
@@ -213,11 +213,11 @@ class BaseKnight
         string toString      () const;
 
         KnightType getTypeK ()               { return knightType; }
-        int    getHP      ()                 { return hp; }
-        int    getMaxHP   ()                 { return maxhp; }
-        int    getLevel   ()                 { return level; }
-        int    getGil     ()                 { return gil; }
-        double getBaseDmg ()                 { return baseDmg; }
+        int    getHP        ()               { return hp; }
+        int    getMaxHP     ()               { return maxhp; }
+        int    getLevel     ()               { return level; }
+        int    getGil       ()               { return gil; }
+        double getBaseDmg   ()               { return baseDmg; }
         void setHP     (int updatedHP)       { this->hp    = updatedHP; }
         void setLevel  (int updatedLevel)    { this->level = updatedLevel; }
         void setGil    (int updatedGil)      { this->gil   = updatedGil; }
@@ -290,22 +290,19 @@ class ArmyKnights
     public:
         ArmyKnights (const string &);;
         ~ArmyKnights();
-
-BaseKnight * knightAt (int i) const;
-
         BaseKnight * lastKnight () const;
-        int  count        ()       const;
-        bool fight        (int, int);
-        bool adventure    (Events *);
-        void lootItem     (int, ItemType);
-        void passGil      (int);
-        void removeKnight (int);
-        bool hasPaladinShield  ()     const { return hasShield; }
-        bool hasLancelotSpear  ()     const { return hasSpear; }
-        bool hasGuinevereHair  ()     const { return hasHollyHair; }
-        bool hasExcaliburSword ()     const { return hasExcalibur; }
-        void printInfo         ()     const;
-        void printResult       (bool) const;
+        int  count              () const;
+        bool fight              (int, int);
+        bool adventure          (Events *);
+        void lootItem           (int, ItemType);
+        void passGil            (int);
+        void removeKnight       (int);
+        bool hasPaladinShield   ()     const { return hasShield; }
+        bool hasLancelotSpear   ()     const { return hasSpear; }
+        bool hasGuinevereHair   ()     const { return hasHollyHair; }
+        bool hasExcaliburSword  ()     const { return hasExcalibur; }
+        void printInfo          ()     const;
+        void printResult        (bool) const;
 };
 
 
