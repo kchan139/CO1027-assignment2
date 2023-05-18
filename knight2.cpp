@@ -409,7 +409,7 @@ bool DragonKnight::fight (BaseOpponent * opponent)
     if (typeO == Hades && !encounteredHades) // the god of Death
     {
         encounteredHades = true; 
-        if (this->level >= 8) 
+        if (this->level == 10) 
             { defeatedHades = true; return true; } 
         else { this->hp = 0;  return this->isAlive(); }
     }
