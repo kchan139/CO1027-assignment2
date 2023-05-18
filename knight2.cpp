@@ -22,8 +22,9 @@ bool BaseBag::canUse (BaseKnight* knight, ItemType itemType)
         case PHOENIX_IV:
             if (currentHP < (maxHP / 2) )
                 return true;
+
+        default: return false;
     }
-    return false;
 }
 
 void PhoenixDown::use (BaseKnight* knight)
@@ -691,7 +692,7 @@ void ArmyKnights::passGil (int position)
 void ArmyKnights::lootItem (int position, ItemType itemType)
 {
     BaseItem * item;
-        if (itemType == ANTIDOTE)    item = new Antidote    ();
+        if (itemType == ANTIDOTE)    return;
                             else     item = new PhoenixDown (itemType);
 
     if (!position) { knight[position]->bag->insertFirst(item); return; }

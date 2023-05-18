@@ -131,11 +131,6 @@ class DragonBag : public BaseBag
                 if ((antidoteCount + phoenixCount) < maxCapacity)
                 { item = new PhoenixDown (PHOENIX_I); insertFirst (item); }
             }
-            for (int i = 0; i < antidote; i++) 
-            {
-                if ((antidoteCount + phoenixCount)  < maxCapacity)
-                { item = new Antidote (); insertFirst (item); }
-            }
         }
         ~DragonBag () 
         {
